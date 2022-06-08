@@ -5,6 +5,8 @@ import re
 import os
 
 
+import transaction
+
 ######################
 ### declares
 ######################
@@ -132,13 +134,64 @@ def DBG_format_entry(k, v):
         statement += " (+" + str(v["add"]) + " : -" + str(v["sub"]) + ")"
     return statement
 
-def DBG_print_aggreg(aggreg):
+def DBG_print_aggreg_base(aggreg):
     i = 0
     for k in sorted(aggreg.keys()):
         v = aggreg[k]
         statement = DBG_format_entry(k, v)
         DBG_print_statement(i, statement)
         i += 1
+
+def DBG_print_aggreg(aggreg):
+    income = {}
+    expenses = {}
+
+    income_total = float(0)
+    expense_total = float(0)
+
+    for k in aggreg.keys():
+        v = aggreg[k]
+        if v["add"] > 0:
+            income[k] = v
+            income_total += v["add"]
+        else:
+            expenses[k] = v
+            expense_total += v["sub"]
+
+    print("")
+    print("{Income} " + str(income_total))
+    print(line_break)
+    DBG_print_aggreg_base(income)
+
+    print("")
+    print("{Expenses} " + str(expense_total))
+    print(line_break)
+    DBG_print_aggreg_base(expenses)
+
+
+
+def main(file_name):
+    statements = build_statement_list(file_name, pattern["statement"])
+    dict_list = build_dictionary_list(statements)
+    aggreg = aggregate_general(dict_list, "NAME")
+
+    print("Results for: " + file_name)
+
+    if args.total:
+        total = sum_transactions(aggreg)
+        text = DBG_format_entry("TOTAL", total)
+        print(text)
+
+    print(line_break)
+
+    if args.statement:
+        DBG_print_statement_list_2(statements, pattern["general"])
+    else:
+        DBG_print_aggreg(aggreg)
+    print("")
+    print("")
+    print("")
+
 
 
 ######################
@@ -157,22 +210,7 @@ if args.verbose:
 
 
 file_name = os.path.realpath(args.file_name)
+#main(file_name)
+
 statements = build_statement_list(file_name, pattern["statement"])
-dict_list = build_dictionary_list(statements)
-aggreg = aggregate_general(dict_list, "NAME")
-
-print("Results for: " + file_name)
-
-if args.total:
-    total = sum_transactions(aggreg)
-    text = DBG_format_entry("TOTAL", total)
-    print(text)
-
-print(line_break)
-
-if args.statement:
-    DBG_print_statement_list_2(statements, pattern["general"])
-else:
-    DBG_print_aggreg(aggreg)
-
-
+DBG_print_statement(1, statements[0])
