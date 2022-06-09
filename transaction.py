@@ -50,8 +50,8 @@ class Transaction:
         self._try_assign_str(dct, "NAME", "name")
         self._try_assign_str(dct, "MEMO", "memo")
 
-    def format_output(self):
-        out = ""
+    def format_out(self):
+        out = "[" + self.type + "] " + str(self.amount) + " \'" + self.memo + "\'"
         return out
 
 
