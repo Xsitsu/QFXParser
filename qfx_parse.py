@@ -33,58 +33,34 @@ def build_statement_list(file_name, pattern):
     matches = re.findall(pattern, text)
     return matches
 
-def build_match_list(statement, pattern):
-    matches = re.findall(pattern, statement)
-    return matches
-
-def build_dictionary(statement):
-    gen_pattern = pattern["general"]
-    tag_pattern = pattern["tag"]
-
-    dct = {}
-    matches = build_match_list(statement, gen_pattern)
-    for mat in matches:
-        tag_list = re.findall(tag_pattern, mat)
-        if len(tag_list) > 0:
-            tag = tag_list[0]
-            tag = tag.replace("<", "")
-            tag = tag.replace(">", "")
-            dat = re.sub(tag_pattern, "", mat)
-            if dat != "":
-                dct[tag] = dat
-
-    return dct
-
-def build_dictionary_list(statement_list):
-    dict_list = []
+def build_transaction_list(statement_list):
+    transactions = []
     for statement in statement_list:
-        dct = build_dictionary(statement)
-        dict_list.append(dct)
+        trn = transaction.Transaction()
+        trn.parse_statement(statement)
+        transactions.append(trn)
 
-    return dict_list
+    return transactions
 
-def aggregate_general(dict_list, key):
+def aggregate_name(trans_list):
     aggreg_dict = {}
-    for dct in dict_list:
-        if key not in dct.keys():
-            continue
-        k = dct[key]
+    for tran in trans_list:
+        k = tran.name
+        amt = tran.amount
+
         if k not in aggreg_dict.keys():
             aggreg_dict[k] = {
-                "name": "N/A",
+                "name": tran.name,
                 "add": float(0),
                 "sub": float(0),
                 "net": float(0)
             }
-            if "NAME" in dct.keys():
-                aggreg_dict[k]["name"] = dct["NAME"]
 
-        val = float(dct["TRNAMT"])
-        aggreg_dict[k]["net"] += val
-        if val > 0:
-            aggreg_dict[k]["add"] += val
+        aggreg_dict[k]["net"] += amt
+        if amt > 0:
+            aggreg_dict[k]["add"] += amt
         else:
-            aggreg_dict[k]["sub"] -= val
+            aggreg_dict[k]["sub"] += amt
 
     return aggreg_dict
 
@@ -172,8 +148,8 @@ def DBG_print_aggreg(aggreg):
 
 def main(file_name):
     statements = build_statement_list(file_name, pattern["statement"])
-    dict_list = build_dictionary_list(statements)
-    aggreg = aggregate_general(dict_list, "NAME")
+    transactions = build_transaction_list(statements)
+    aggreg = aggregate_name(transactions)
 
     print("Results for: " + file_name)
 
@@ -210,7 +186,7 @@ if args.verbose:
 
 
 file_name = os.path.realpath(args.file_name)
-#main(file_name)
+main(file_name)
 
-statements = build_statement_list(file_name, pattern["statement"])
-DBG_print_statement(1, statements[0])
+#statements = build_statement_list(file_name, pattern["statement"])
+#DBG_print_statement(1, statements[0])

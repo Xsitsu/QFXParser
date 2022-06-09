@@ -1,15 +1,15 @@
 import re
 
-class Transaction:
-    pattern_general = "\<.*?>[^\<]"
-    pattern_tag = "\<.*?>"
+pattern_general = "\<.*?>[^\<]*"
+pattern_tag = "\<.*?>"
 
+class Transaction:
     def __init__(self):
         self.type = ""
         self.date_posted = ""
         self.amount = float(0)
         self.fitid = 0
-        self.name = ""
+        self.name = "_NA"
         self.memo = ""
 
     def _build_dictionary(self, text):
@@ -21,26 +21,34 @@ class Transaction:
                 tag = tag_list[0]
                 tag = tag.replace("<", "")
                 tag = tag.replace(">", "")
-                dat = re.sub(tag_pattern, "", mat)
+                dat = re.sub(pattern_tag, "", mat)
                 if dat != "":
                     dct[tag] = dat
         
         return dct
 
+    def _try_assign_str(self, dct, dk, sk):
+        try:
+            if dk in dct.keys() and hasattr(self, sk):
+                setattr(self, sk, str(dct[dk]))
+        except:
+            setattr(self, sk, "_BAD_VAL_")
+
+    def _try_assign_float(self, dct, dk, sk):
+        try:
+            if dk in dct.keys() and hasattr(self, sk):
+                setattr(self, sk, float(dct[dk]))
+        except:
+            setattr(self, sk, -0.010101)
+
     def parse_statement(self, text):
-        dct = _build_dictionary(text)
-        if dct["TRNTYPE"] != None:
-            self.type = str(dct["TRNTYPE"])
-        if dct["DTPOSTED"] != None:
-            self.date_posted = str(dct["DTPOSTED"])
-        if dct["TRNAMT"] != None:
-            self.amount = float(dct["TRNAMT"])
-        if dct["FITID"] != None:
-            self.fitid = str(dct["FITID"])
-        if dct["NAME"] != None:
-            self.name = str(dct["NAME"])
-        if dct["MEMO"] != None:
-            self.memo = str(dct["MEMO"])
+        dct = self._build_dictionary(text)
+        self._try_assign_str(dct, "TRNTYPE", "type")
+        self._try_assign_str(dct, "DTPOSTED", "date_posted")
+        self._try_assign_float(dct, "TRNAMT", "amount")
+        self._try_assign_str(dct, "FITID", "fitid")
+        self._try_assign_str(dct, "NAME", "name")
+        self._try_assign_str(dct, "MEMO", "memo")
 
     def format_output(self):
         out = ""
