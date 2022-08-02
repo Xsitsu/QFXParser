@@ -19,6 +19,12 @@ class Source:
             self.expense_total -= amt
             self.expense_trans.append(trn)
 
+    def add_source(self, src):
+        for trn in src.income_trans:
+            self.add_transaction(trn)
+        for trn in src.expense_trans:
+            self.add_transaction(trn)
+
     def format_out(self):
         out = "{" + self.name + "} " + str(self.total)
         if self.income_total > 0 and self.expense_total > 0:

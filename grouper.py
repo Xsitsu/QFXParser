@@ -35,15 +35,17 @@ class Grouper:
         self.groups.append({
             "name": key,
             "mapping": mappings,
-            "ssrc": src
+            "ssrc": src,
+            "source_dict": {}
         })
 
 
-    def filter_transaction(self, trn):
+    def filter_source(self, src):
         for group in self.groups:
             for term in group["mapping"]:
-                if trn.name.find(term) != -1 or term == "*":
-                    group["ssrc"].add_transaction(trn)
+                if src.name.find(term) != -1 or term == "*":
+                    group["ssrc"].add_source(src)
+                    group["source_dict"][src.name] = src
                     return
 
     def _is_all(self, trn):
