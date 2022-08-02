@@ -6,6 +6,7 @@ import os
 
 import transaction
 import source
+import grouper
 
 ######################
 ### declares
@@ -14,7 +15,6 @@ line_break = "-" * 80
 pattern = {
     "statement": "\<STMTTRN\>.*?\<\/STMTTRN\>"
 }
-
 
 
 ######################
@@ -53,6 +53,14 @@ def build_source_dict(transaction_list):
 
     return sources
 
+def build_groups(transaction_list):
+    group = grouper.Grouper()
+
+    for tran in transaction_list:
+        group.filter_transaction(tran)
+
+    return group
+
 def sum_transactions(source_dict):
     src = source.Source()
     src.name = "TOTAL"
@@ -73,6 +81,7 @@ def main(file_name):
     statements = build_statement_list(file_name, pattern["statement"])
     transactions = build_transaction_list(statements)
     sources = build_source_dict(transactions)
+    groups = build_groups(transactions)
     total = sum_transactions(sources)
 
 
@@ -82,6 +91,17 @@ def main(file_name):
         print(total.format_out())
     print(line_break)
     print("")
+
+    ## Groups
+    if args.group:
+        print("{Groups}")
+        print(line_break)
+        i = 0
+        for gp in groups.groups:
+            print("[" + str(i) + "] " + gp["ssrc"].format_out())
+            i += 1
+        print("")
+
 
     ## Income
     print("{Income} " + str(total.income_total))
@@ -130,6 +150,7 @@ parser.add_argument("file_name", type=str)
 parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
 parser.add_argument("-s", "--statement", help="output list of statements", action="store_true")
 parser.add_argument("-t", "--total", help="output total", action="store_true")
+parser.add_argument("-g", "--group", help="group sources together", action="store_true")
 
 args = parser.parse_args()
 
