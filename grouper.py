@@ -1,32 +1,45 @@
 import source
 
 
-mapping = {
-    "food_deliv": [
-        "DOORDASH",
-        "GRUBHUB"
-    ],
-    "fitness": [
-        "MUV FITNESS"
-    ],
-    "games": [
-        "EVE ONLINE CCP",
-        "Blizzard Ent",
-        "STEAMGAMES",
-        "Chess.com"
-    ],
+mapping = [
+    {
+        "name": "Food Delivery",
+        "patterns": [
+            "DOORDASH",
+            "GRUBHUB"
+        ]
+    },
+    {
+        "name": "Fitness",
+        "patterns": [
+            "MUV FITNESS"
+        ]
+    },
+    {
+        "name": "Games",
+        "patterns": [
+            "EVE ONLINE CCP",
+            "Blizzard Ent",
+            "STEAMGAMES",
+            "Chess.com"
+        ]
+    },
 
-    "all": ["*"]
-}
+
+    {
+        "name": "Etc",
+        "patterns": ["*"]
+    }
+]
 
 class Grouper:
     def __init__(self):
         self.groups = []
+        self.load_mapping(mapping)
 
-        self._init_group("Food Delivery", mapping["food_deliv"])
-        self._init_group("Fitness", mapping["fitness"])
-        self._init_group("Games", mapping["games"])
-        self._init_group("Etc", mapping["all"])
+    def load_mapping(self, mappings):
+        for mp in mappings:
+            self._init_group(mp["name"], mp["patterns"])
 
     def _init_group(self, key, mappings):
         src = source.Source()
