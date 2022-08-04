@@ -3,6 +3,24 @@ import re
 pattern_general = "\<.*?>[^\<]*"
 pattern_tag = "\<.*?>"
 
+
+replacements = [
+    {
+        "name": "GRUBHUB",
+        "patterns": [
+            "GRUBHUB"
+        ]
+    },
+    {
+        "name": "DOORDASH",
+        "patterns": [
+            "DOORDASH"
+        ]
+    }
+]
+
+
+
 class Transaction:
     def __init__(self):
         self.type = ""
@@ -49,6 +67,15 @@ class Transaction:
         self._try_assign_str(dct, "FITID", "fitid")
         self._try_assign_str(dct, "NAME", "name")
         self._try_assign_str(dct, "MEMO", "memo")
+
+        self._filter_name()
+
+    def _filter_name(self):
+        for mp in replacements:
+            for term in mp["patterns"]:
+                if self.name.find(term) != -1:
+                    self.name = mp["name"]
+                    return
 
     def format_out(self):
         out = "[" + self.type + "] " + str(self.amount) + " \'" + self.memo + "\'"
