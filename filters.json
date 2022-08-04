@@ -1,0 +1,15 @@
+[
+    {
+        "name": "GRUBHUB",
+        "patterns": [
+            "GRUBHUB"
+        ]
+    },
+    {
+        "name": "DOORDASH",
+        "patterns": [
+            "DOORDASH"
+        ]
+    }
+]
+

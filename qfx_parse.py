@@ -3,6 +3,7 @@
 import argparse
 import re
 import os
+import json
 
 import transaction
 import source
@@ -28,6 +29,11 @@ def read_all_text(file_name):
         text = file.read()
     return text
 
+def load_json(file_name):
+    text = read_all_text(file_name)
+    data = json.loads(text)
+    return data
+
 def build_statement_list(file_name, pattern):
     text = read_all_text(file_name)
     matches = re.findall(pattern, text)
@@ -42,21 +48,29 @@ def build_transaction_list(statement_list):
 
     return transactions
 
-def build_source_dict(transaction_list):
+def _filter_trans_name(name, filters):
+    for entry in filters:
+        for pattern in entry["patterns"]:
+            if name.find(pattern) != -1:
+                return entry["name"]
+    return name
+
+def build_source_dict(transaction_list, filters):
     sources = {}
     for tran in transaction_list:
-        k = tran.name
-        if k not in sources.keys():
+        use_name = _filter_trans_name(tran.name, filters)
+        if use_name not in sources.keys():
             src = source.Source()
-            src.name = tran.name
-            sources[k] = src
+            src.name = use_name
+            sources[use_name] = src
 
-        sources[k].add_transaction(tran)
+        sources[use_name].add_transaction(tran)
 
     return sources
 
-def build_groups(source_dict):
+def build_groups(source_dict, group_filters):
     group = grouper.Grouper()
+    group.load_mapping(group_filters)
 
     for k, v in source_dict.items():
         group.filter_source(v)
@@ -147,10 +161,13 @@ def output_groups(groups):
 
 
 def main(file_name):
+    group_filters = load_json("groupings.json")
+    trans_filters = load_json("filters.json")
+
     statements = build_statement_list(file_name, pattern["statement"])
     transactions = build_transaction_list(statements)
-    sources = build_source_dict(transactions)
-    groups = build_groups(sources)
+    sources = build_source_dict(transactions, trans_filters)
+    groups = build_groups(sources, group_filters)
     total = sum_transactions(sources)
 
 
