@@ -3,16 +3,61 @@ import source
 
 mapping = [
     {
-        "name": "Food Delivery",
+        "name": "Job",
         "patterns": [
-            "DOORDASH",
-            "GRUBHUB"
+            "INTEL CORP"
+        ]
+    },
+    {
+        "name": "Monthly Bills",
+        "patterns": [
+            "AT&amp;",
+            "ATT",
+            "Amazon Prime",
+            "Patreon",
+            "JPMorgan Chase",
+            "Spotify"
+        ]
+    },
+    {
+        "name": "Untrackable",
+        "patterns": [
+            "VENMO",
+            "APPLE CASH"
+        ]
+    },
+    {
+        "name": "Groceries",
+        "patterns": [
+            "TARGET T",
+            "FRED-MEYE"
         ]
     },
     {
         "name": "Fitness",
         "patterns": [
-            "MUV FITNESS"
+            "MUV FIT"
+        ]
+    },
+    {
+        "name": "Grooming",
+        "patterns": [
+            "NEW BEGINNING SAL",
+        ]
+    },
+    {
+        "name": "Gas",
+        "patterns": [
+            "CENTURY PETRO",
+            "CHEVRON"
+        ]
+    },
+    {
+        "name": "Food Delivery",
+        "patterns": [
+            "DOORDASH",
+            "GRUBHUB",
+            "INSTACART"
         ]
     },
     {
@@ -21,6 +66,7 @@ mapping = [
             "EVE ONLINE CCP",
             "Blizzard Ent",
             "STEAMGAMES",
+            "Steam Purchase",
             "Chess.com"
         ]
     },
