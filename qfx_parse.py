@@ -5,6 +5,7 @@ import re
 import os
 import json
 
+import logger
 import transaction
 import source
 import grouper
@@ -12,12 +13,9 @@ import grouper
 ######################
 ### declares
 ######################
-line_break = "-" * 80
 pattern = {
     "statement": "\<STMTTRN\>.*?\<\/STMTTRN\>"
 }
-
-output_indent = 0
 
 
 ######################
@@ -89,77 +87,6 @@ def sum_transactions(source_dict):
     return src
 
 
-
-def tag(i):
-    return "[" + str(i) + "]"
-
-
-def oi_pp():
-    global output_indent
-    output_indent += 1
-
-def oi_mm():
-    global output_indent
-    output_indent -= 1
-
-def output(text):
-    global output_indent
-    print("\t" * output_indent + text)
-
-
-def output_transactions(trans):
-    i = 0
-    for t in trans:
-        output(tag(i) + " " + t.format_out())
-        i += 1
-
-def _do_output_source(i, src, trans):
-    output(tag(i) + " " + src.format_out())
-    if args.source_transactions:
-        oi_pp()
-        output_transactions(trans)
-        oi_mm()
-
-def output_source_dict(source_dict, total_income, total_expense):
-    if total_income > 0:
-        i = 0
-        output("{Income} " + str(total_income))
-        output(line_break)
-        for k in sorted(source_dict.keys()):
-            src = source_dict[k]
-            if src.total > 0:
-                _do_output_source(i, src, src.income_trans)
-                i += 1
-        output("")
-
-    if total_expense > 0:
-        i = 0
-        output("{Expenses} " + str(total_expense))
-        output(line_break)
-        for k in sorted(source_dict.keys()):
-            src = source_dict[k]
-            if src.total < 0:
-                _do_output_source(i, src, src.expense_trans)
-                i += 1
-        output("")
-
-def output_groups(groups):
-    output("{Groups}")
-    output(line_break)
-    i = 0
-    for gp in groups.groups:
-        src = gp["ssrc"]
-        output(tag(i) + " " + src.format_out())
-        i += 1
-
-        if args.group_sources:
-            oi_pp()
-            output_source_dict(gp["source_dict"], src.income_total, src.expense_total)
-            oi_mm()
-
-    print("")
-
-
 def main(file_name):
     group_filters = load_json("groupings.json")
     trans_filters = load_json("filters.json")
@@ -170,24 +97,26 @@ def main(file_name):
     groups = build_groups(sources, group_filters)
     total = sum_transactions(sources)
 
+    lg = logger.Logger()
+    lg.output_group_sources = args.group_sources
+    lg.output_source_transactions = args.source_transactions
 
     ## Header
-    print("Results for: " + file_name)
+    lg.output("Results for: " + file_name)
     if args.total:
-        print(total.format_out())
-    print(line_break)
-    print("")
+        lg.output(total.format_out())
+    lg.line_break()
+    lg.output("")
 
     ## Groups
     if args.group:
-        output_groups(groups)
+        lg.output_groups(groups)
 
     if args.sources:
-        output_source_dict(sources, total.income_total, total.expense_total)
+        lg.output_source_dict(sources, total.income_total, total.expense_total)
 
-    print("")
-    print("")
-
+    lg.output("")
+    lg.output("")
 
 
 
