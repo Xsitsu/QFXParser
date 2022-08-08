@@ -71,11 +71,20 @@ def sum_transactions(source_dict):
     return src
 
 
-def main(file_name):
+def main(file_name_list):
     group_filters = load_json("groupings.json")
     trans_filters = load_json("filters.json")
 
     par = parser.Parser()
+    for fname in file_name_list:
+        file_name = os.path.realpath(fname)
+        if file_name.find(".qfx") != -1:
+            par.parse_qfx(read_all_text(file_name))
+        elif file_name.find(".csv") != -1:
+            par.parse_venmo(file_name)
+        else:
+            print("ERROR: bad file [" + file_name + "]")
+
     par.parse_qfx(read_all_text(file_name))
 
     sources = build_source_dict(par.transactions, trans_filters)
@@ -110,7 +119,7 @@ def main(file_name):
 ### main
 ######################
 arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument("file_name", type=str)
+arg_parser.add_argument("file_list", type=str, nargs="+")
 arg_parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
 arg_parser.add_argument("-s", "--sources", help="output list of sources", action="store_true")
 arg_parser.add_argument("-t", "--total", help="output total", action="store_true")
@@ -125,7 +134,5 @@ args = arg_parser.parse_args()
 if args.verbose:
     print("verbosity turned on")
 
-
-file_name = os.path.realpath(args.file_name)
-main(file_name)
+main(args.file_list)
 

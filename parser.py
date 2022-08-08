@@ -1,4 +1,5 @@
 import re
+import csv
 
 import transaction
 
@@ -32,6 +33,13 @@ class Parser:
         except:
             print("ERROR with assignment!")
 
+    def _dollar_to_float(self, t):
+        text = t.replace(" ", "")
+        if text[0] == "-":
+            return -float(text[2:])
+        else:
+            return float(text[2:])
+
     def parse_qfx(self, text_data):
         statements = re.findall(PATTERN_STATEMENT, text_data)
         for stat in statements:
@@ -46,4 +54,18 @@ class Parser:
             self._try_assign(str, trn, dct, "NAME", "name")
             self._try_assign(str, trn, dct, "MEMO", "memo")
 
+    def parse_venmo(self, file_name):
+        with open(file_name, newline='') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if row[3] == "Payment":
+                    trn = transaction.Transaction()
+                    self.transactions.append(trn)
+
+                    trn.name = row[5]
+                    trn.amount = self._dollar_to_float(row[8])
+                    trn.type = "VENMO"
+                    trn.date_posted = row[2]
+                    trn.fitid = row[1]
+                    trn.memo = "Venmo transaction"
 
