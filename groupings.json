@@ -47,6 +47,13 @@
 	]
     },
     {
+	"name": "Alcohol",
+	"patterns": [
+	    "BRIGHTCELLARS",
+	    "OR LIQUOR STORE"
+	]
+    },
+    {
         "name": "Groceries",
         "patterns": [
             "TARGET T",
