@@ -6,7 +6,7 @@ PATTERN_STATEMENT = "\<STMTTRN\>.*?\<\/STMTTRN\>"
 PATTERN_GENERAL = "\<.*?>[^\<]*"
 PATTERN_TAG = "\<.*?>"
 
-class QFX_Parser:
+class Parser:
     def __init__(self):
         self.transactions = []
 

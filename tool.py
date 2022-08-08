@@ -6,7 +6,7 @@ import os
 import json
 
 import logger
-import qfx_parse
+import parser
 import transaction
 import source
 import grouper
@@ -14,9 +14,6 @@ import grouper
 ######################
 ### declares
 ######################
-pattern = {
-    "statement": "\<STMTTRN\>.*?\<\/STMTTRN\>"
-}
 
 
 ######################
@@ -78,10 +75,10 @@ def main(file_name):
     group_filters = load_json("groupings.json")
     trans_filters = load_json("filters.json")
 
-    parser = qfx_parse.QFX_Parser()
-    parser.parse_qfx(read_all_text(file_name))
+    par = parser.Parser()
+    par.parse_qfx(read_all_text(file_name))
 
-    sources = build_source_dict(parser.transactions, trans_filters)
+    sources = build_source_dict(par.transactions, trans_filters)
     groups = build_groups(sources, group_filters)
     total = sum_transactions(sources)
 
@@ -112,18 +109,18 @@ def main(file_name):
 ######################
 ### main
 ######################
-parser = argparse.ArgumentParser()
-parser.add_argument("file_name", type=str)
-parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-parser.add_argument("-s", "--sources", help="output list of sources", action="store_true")
-parser.add_argument("-t", "--total", help="output total", action="store_true")
-parser.add_argument("-g", "--group", help="group sources together", action="store_true")
+arg_parser = argparse.ArgumentParser()
+arg_parser.add_argument("file_name", type=str)
+arg_parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+arg_parser.add_argument("-s", "--sources", help="output list of sources", action="store_true")
+arg_parser.add_argument("-t", "--total", help="output total", action="store_true")
+arg_parser.add_argument("-g", "--group", help="group sources together", action="store_true")
 
 
-parser.add_argument("-st", "--source_transactions", help="output transactions under sources", action="store_true")
-parser.add_argument("-gs", "--group_sources", help="output sources under groups", action="store_true")
+arg_parser.add_argument("-st", "--source_transactions", help="output transactions under sources", action="store_true")
+arg_parser.add_argument("-gs", "--group_sources", help="output sources under groups", action="store_true")
 
-args = parser.parse_args()
+args = arg_parser.parse_args()
 
 if args.verbose:
     print("verbosity turned on")
