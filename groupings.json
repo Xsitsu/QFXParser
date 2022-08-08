@@ -2,33 +2,37 @@
     {
         "name": "Job",
         "patterns": [
-            "INTEL CORP"
+            "INTEL CORP",
+	    "JF"
         ]
     },
     {
-        "name": "Monthly Bills",
+	"name": "Housing",
+	"patterns": [
+	    "for rent",
+	    "Rent"
+	]
+    },
+    {
+	"name": "Utilities",
+	"patterns": [
+	]
+    },
+    {
+        "name": "Bills",
         "patterns": [
             "AT&amp;",
             "ATT",
             "Amazon Prime",
             "Patreon",
-            "JPMorgan Chase",
             "Spotify"
         ]
     },
     {
-        "name": "Untrackable",
-        "patterns": [
-            "VENMO",
-            "APPLE CASH"
-        ]
-    },
-    {
-        "name": "Groceries",
-        "patterns": [
-            "TARGET T",
-            "FRED-MEYE"
-        ]
+	"name": "Loans",
+	"patterns": [
+	    "JPMorgan Chase"
+	]
     },
     {
         "name": "Fitness",
@@ -43,6 +47,16 @@
 	]
     },
     {
+        "name": "Groceries",
+        "patterns": [
+            "TARGET T",
+            "FRED-MEYE",
+	    "Groceries",
+	    "ello fre",
+	    "Hellofresh"
+        ]
+    },
+    {
         "name": "Gas",
         "patterns": [
             "CENTURY PETRO",
@@ -54,8 +68,36 @@
         "patterns": [
             "DOORDASH",
             "GRUBHUB",
-            "INSTACART"
-        ]
+            "INSTACART",
+	    "DOMINO'S",
+	    "Spaghetti Factory",
+	    "Pizza",
+	    "pizza",
+	    "Mexican food",
+	    "Chipotle",
+	    "BWW",
+	    "Red Robin",
+	    "Thai Food",
+	    "McDonal",
+	    "Burger King",
+	    "Panera",
+	    "Chicken",
+	    "Breakfast bagel and coffee",
+	    "Chinese food",
+	    "Popeyes",
+	    "Sesame donuts bagel",
+	    "Teriyaki",
+	    "Borgar",
+	    "Qdoba",
+	    "Taco Bell"
+	]
+    },
+    {
+	"name": "Coffee",
+	"patterns": [
+	    "Coffee",
+	    "COFFE"
+	]
     },
     {
         "name": "Games",
@@ -65,6 +107,13 @@
             "STEAMGAMES",
             "Steam Purchase",
             "Chess.com"
+        ]
+    },
+    {
+        "name": "Untrackable",
+        "patterns": [
+            "VENMO",
+            "APPLE CASH"
         ]
     },
 

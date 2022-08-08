@@ -10,6 +10,49 @@
         "patterns": [
             "DOORDASH"
         ]
+    },
+    {
+	"name": "Coffee",
+	"patterns": [
+	    "Coffee"
+	]
+    },
+    {
+	"name": "Spaghetti Factory",
+	"patterns": [
+	    "Spag"
+	]
+    },
+    {
+	"name": "BWW",
+	"patterns": [
+	    "BWW"
+	]
+    },
+    {
+	"name": "Red Robin",
+	"patterns": [
+	    "Red Robbi"
+	]
+    },
+    {
+	"name": "McDonalds",
+	"patterns": [
+	    "McDona",
+	    "Maccas"
+	]
+    },
+    {
+	"name": "Thai Food",
+	"patterns": [
+	    "Thai"
+	]
+    },
+    {
+	"name": "Burger King",
+	"patterns": [
+	    "Borgar"
+	]
     }
 ]
 
