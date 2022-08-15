@@ -24,14 +24,14 @@ class Logger:
     def output_transaction_list(self, trans_list):
         i = 0
         for t in trans_list:
-            output(self._tag(i) + " " + t.format_out())
+            self.output(self._tag(i) + " " + t.format_out())
             i += 1
 
     def _do_output_source(self, i, src, trans_list):
         self.output(self._tag(i) + " " + src.format_out())
         if trans_list != None:
             self.ipp()
-            output_transaction_list(trans_list)
+            self.output_transaction_list(trans_list)
             self.imm()
 
     def output_source_dict(self, source_dict, t_income, t_expense):
