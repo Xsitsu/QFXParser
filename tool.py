@@ -76,16 +76,19 @@ def main(file_name_list):
     trans_filters = load_json("filters.json")
 
     par = parser.Parser()
+    if args.verbose:
+        par.verbose = True
+
     for fname in file_name_list:
         file_name = os.path.realpath(fname)
+        if args.verbose:
+            print("Parsing: " + file_name)
         if file_name.find(".qfx") != -1:
             par.parse_qfx(read_all_text(file_name))
         elif file_name.find(".csv") != -1:
             par.parse_venmo(file_name)
         else:
             print("ERROR: bad file [" + file_name + "]")
-
-    par.parse_qfx(read_all_text(file_name))
 
     sources = build_source_dict(par.transactions, trans_filters)
     groups = build_groups(sources, group_filters)

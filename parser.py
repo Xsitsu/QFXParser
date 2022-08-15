@@ -10,6 +10,7 @@ PATTERN_TAG = "\<.*?>"
 class Parser:
     def __init__(self):
         self.transactions = []
+        self.verbose = False
 
     def _build_qfx_dict(self, text):
         dct = {}
@@ -60,7 +61,14 @@ class Parser:
 
     def parse_qfx(self, text_data):
         statements = re.findall(PATTERN_STATEMENT, text_data)
+        if self.verbose:
+            print("Parsing statements")
+
         for stat in statements:
+            if self.verbose:
+                print(stat)
+                print("")
+
             self._parse_qfx_statement(stat)
 
     def parse_venmo(self, file_name):
