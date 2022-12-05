@@ -95,6 +95,8 @@ def main(file_name_list):
     total = sum_transactions(sources)
 
     lg = logger.Logger()
+    lg.output_groups = args.groups
+    lg.output_sources = args.sources
 
     ## Header
     lg.output("Results for: " + file_name)
@@ -104,7 +106,7 @@ def main(file_name_list):
 
 
     for group in groups.groups:
-        lg.output_group(group)
+        lg.output_entry(group)
 
     lg.output("")
     lg.output("")
@@ -118,7 +120,8 @@ def main(file_name_list):
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("file_list", type=str, nargs="+")
 arg_parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-
+arg_parser.add_argument("-g", "--groups", help="output groups", action="store_true")
+arg_parser.add_argument("-s", "--sources", help="output sources", action="store_true")
 
 args = arg_parser.parse_args()
 
