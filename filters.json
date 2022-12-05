@@ -51,7 +51,37 @@
     {
 	"name": "Burger King",
 	"patterns": [
-	    "Borgar"
+	    "Borgar",
+	    "BURGER KING"
+	]
+    },
+    {
+	"name": "Dairy Queen",
+	"patterns": [
+	    "Dairy Queen",
+	    "DAIRY QUEEN"
+	]
+    },
+    {
+	"name": "TOP BURMESE BISTRO",
+	"patterns": [
+	    "TOP BURMESE BISTRO",
+	    "Burmese",
+	    "burmese"
+	]
+    },
+    {
+	"name": "AVA ROASTERIA",
+	"patterns": [
+	    "AVA",
+	    "Ava"
+	]
+    },
+    {
+	"name": "Spotify",
+	"patterns": [
+	    "Spotify",
+	    "SPOTIFY"
 	]
     }
 ]

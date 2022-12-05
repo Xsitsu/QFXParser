@@ -10,22 +10,20 @@
 	"name": "Housing",
 	"patterns": [
 	    "for rent",
-	    "Rent"
-	]
-    },
-    {
-	"name": "Utilities",
-	"patterns": [
+	    "Rent",
+	    "Verso WEB PMTS"
 	]
     },
     {
         "name": "Bills",
         "patterns": [
+	    "COMCAST",
             "AT&amp;",
-            "ATT",
+            "ATT* BILL",
             "Amazon Prime",
             "Patreon",
-            "Spotify"
+            "Spotify",
+	    "NETFLIX"
         ]
     },
     {
@@ -47,13 +45,6 @@
 	]
     },
     {
-	"name": "Alcohol",
-	"patterns": [
-	    "BRIGHTCELLARS",
-	    "OR LIQUOR STORE"
-	]
-    },
-    {
         "name": "Groceries",
         "patterns": [
             "TARGET T",
@@ -64,11 +55,40 @@
         ]
     },
     {
+	"name": "Alcohol",
+	"patterns": [
+	    "BRIGHTCELLARS",
+	    "LIQUOR STOR"
+	]
+    },
+    {
         "name": "Gas",
         "patterns": [
             "CENTURY PETRO",
-            "CHEVRON"
+            "CHEVRON",
+	    "TANASBOURNE 76 AND",
+	    "FRED M FUEL",
+	    "ARYA GAS"
         ]
+    },
+    {
+	"name": "Uber",
+	"patterns": [
+	    "UBER TRIP"
+	]
+    },
+    {
+	"name": "Coffee",
+	"patterns": [
+	    "Coffee",
+	    "COFFE",
+	    "STARBUCKS STORE",
+	    "AVA ROASTERIA",
+	    "PEETS",
+	    "GUILDER CAFE",
+	    "LIONHEART COF",
+	    "STARBUCKS"
+	]
     },
     {
         "name": "Food Delivery",
@@ -100,10 +120,59 @@
 	]
     },
     {
-	"name": "Coffee",
+	"name": "Restaurants",
 	"patterns": [
-	    "Coffee",
-	    "COFFE"
+	    "JUAN COLORADO",
+	    "RAMEN RYOMA",
+	    "Subway",
+	    "TAKUMI SUSHI BAR",
+	    "TST* SPARK",
+	    "TST* THIRSTY LION",
+	    "TST* Thirsty Lion",
+	    "OLIVE GARDEN",
+	    "RAVENS MANOR",
+	    "MARGARITA FACTORY",
+	    "SARKU JAPAN",
+	    "GANG NAM KOREAN BB",
+	    "COUNTRY COUSIN",
+	    "PANDA EXPRESS",
+	    "FOODCART",
+	    "QDOBA",
+	    "ELMERS REST",
+	    "GYRO 2 GO ",
+	    "IKEA PORTLAND REST",
+	    "LA HACIENDA REAL",
+	    "MCDONALD'S",
+	    "ZEN TERIYAKI",
+	    "Dairy Queen",
+	    "TOP BURMESE BISTRO",
+	    "ABBYS LEGENDARY",
+	    "IL TERRAZZO",
+	    "MAMA LILY'S KI",
+	    "TOKYO SANDO",
+	    "TASTY POT",
+	    "AFURI IZAKAYA",
+	    "Batter Up",
+	    "ICKABOD'S",
+	    "Sizzle Pie",
+	    "Voodoo Doughn",
+	    "BROADWAY SALO"
+	]
+    },
+    {
+	"name": "Bars",
+	"patterns": [
+	    "DIXIE TAVERN",
+	    "WILDWOOD TAPHOUSE",
+	    "GROUND KONTROL",
+	    "SYNDICATE WINE BAR",
+	    "LOYAL LEGION",
+	    "Portland Sports Ba",
+	    "RAINDROP TAP HOUSE",
+	    "CATMAN CELLARS",
+	    "MIGRATION BREW",
+	    "THE CHEERFUL TORTO",
+	    "THE COFFIN CLUB"
 	]
     },
     {
@@ -115,6 +184,29 @@
             "Steam Purchase",
             "Chess.com"
         ]
+    },
+    {
+	"name": "Entertainment",
+	"patterns": [
+	    "BROWNPAPERTICKETS",
+	    "TIXOREG",
+	    "ALLIANZ EVENT INS",
+	    "REGAL CINEMAS",
+	    "REG EVERGREEN",
+	    "CENTURY THEATRES"
+	] 
+    },
+    {
+	"name": "Home Upgrades",
+	"patterns": [
+	    "IKEA",
+	    "HOMEGOODS",
+	    "BATH AND BODY WORKS",
+	    "RUGS.COM",
+	    "HOME DEPOT",
+	    "GOODWILL",
+	    "BED BATH"
+	]
     },
     {
         "name": "Untrackable",
