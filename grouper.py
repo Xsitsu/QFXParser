@@ -1,4 +1,4 @@
-import source
+from group import Group
 
 
 class Grouper:
@@ -7,27 +7,26 @@ class Grouper:
 
     def load_mapping(self, mappings):
         for mp in mappings:
-            self._init_group(mp["name"], mp["patterns"])
+            self.groups.append(self._init_group(mp))
 
-    def _init_group(self, key, mappings):
-        src = source.Source()
-        src.name = key
+    def _init_group(self, group_dat):
+        g_name = group_dat["name"] if "name" in group_dat else "NO_NAME"
+        g_patterns = group_dat["patterns"] if "patterns" in group_dat else []
+        g_groups = group_dat["groups"] if "groups" in group_dat else []
 
-        self.groups.append({
-            "name": key,
-            "mapping": mappings,
-            "ssrc": src,
-            "source_dict": {}
-        })
+        group = Group()
+        group.name = g_name
+        group.match_patterns = g_patterns
 
+        for gp in g_groups:
+            group.entries.append(self._init_group(gp))
+
+        return group
 
     def filter_source(self, src):
         for group in self.groups:
-            for term in group["mapping"]:
-                if src.name.find(term) != -1 or term == "*":
-                    group["ssrc"].add_source(src)
-                    group["source_dict"][src.name] = src
-                    return
+            if group.filter_source(src):
+                return
 
     def _is_all(self, trn):
         return True

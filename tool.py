@@ -95,22 +95,16 @@ def main(file_name_list):
     total = sum_transactions(sources)
 
     lg = logger.Logger()
-    lg.output_group_sources = args.group_sources
-    lg.output_source_transactions = args.source_transactions
 
     ## Header
     lg.output("Results for: " + file_name)
-    if args.total:
-        lg.output(total.format_out())
+    lg.output(total.format_out())
     lg.line_break()
     lg.output("")
 
-    ## Groups
-    if args.group:
-        lg.output_groups(groups)
 
-    if args.sources:
-        lg.output_source_dict(sources, total.income_total, total.expense_total)
+    for group in groups.groups:
+        lg.output_group(group)
 
     lg.output("")
     lg.output("")
@@ -124,13 +118,7 @@ def main(file_name_list):
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("file_list", type=str, nargs="+")
 arg_parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-arg_parser.add_argument("-s", "--sources", help="output list of sources", action="store_true")
-arg_parser.add_argument("-t", "--total", help="output total", action="store_true")
-arg_parser.add_argument("-g", "--group", help="group sources together", action="store_true")
 
-
-arg_parser.add_argument("-st", "--source_transactions", help="output transactions under sources", action="store_true")
-arg_parser.add_argument("-gs", "--group_sources", help="output sources under groups", action="store_true")
 
 args = arg_parser.parse_args()
 

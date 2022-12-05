@@ -1,18 +1,27 @@
+from entry import Entry
+from source import Source
+from group import Group
 
 
 class Logger:
     def __init__(self):
         self._indent = 0
-        self.output_group_sources = False
-        self.output_source_transactions = False
+        self._tag_counter = []
+
+        self._tag_counter.append(0)
 
     def ipp(self):
         self._indent += 1
+        self._tag_counter.append(0)
 
     def imm(self):
         self._indent -= 1
+        self._tag_counter.pop()
 
-    def _tag(self, i):
+    def _tag(self):
+        tci = len(self._tag_counter) - 1
+        i = self._tag_counter[tci]
+        self._tag_counter[tci] += 1
         return "[" + str(i) + "]"
 
     def output(self, text):
@@ -21,65 +30,51 @@ class Logger:
     def line_break(self):
         self.output("-" * 80)
 
-    def output_transaction_list(self, trans_list):
-        i = 0
-        for t in trans_list:
-            self.output(self._tag(i) + " " + t.format_out())
-            i += 1
+    def output_entry(self, entry):
+        if type(entry) is Group:
+            self.output_group(entry)
+        elif type(entry) is Source:
+            self.output_source(entry)
+        else:
+            raise Exception("BAD ENTRY TYPE!")
 
-    def _do_output_source(self, i, src, trans_list):
-        self.output(self._tag(i) + " " + src.format_out())
-        if trans_list != None:
-            self.ipp()
-            self.output_transaction_list(trans_list)
-            self.imm()
+    def _output_entry_dict(self, entry_dict):
+        for k in sorted(entry_dict.keys()):
+            entry = entry_dict[k]
+            self.output_entry(entry)
 
-    def output_source_dict(self, source_dict, t_income, t_expense):
-        if t_income > 0:
-            i = 0
-            self.output("{Income} " + str(t_income))
+    def output_group(self, group):
+        self.output(self._tag() + " " + group.format_out())
+        entry_dict_income = {}
+        entry_dict_expense = {}
+        for entry in group.entries:
+            if entry.get_total() > 0:
+                entry_dict_income[entry.name] = entry
+            else:
+                entry_dict_expense[entry.name] = entry
+
+        it = group.get_income_total()
+        et = group.get_expense_total()
+
+        self.ipp()
+
+        if it > 0:
+            self.output("{Income} " + str(group.get_income_total()))
             self.line_break()
-            for k in sorted(source_dict.keys()):
-                src = source_dict[k]
-                if src.total > 0:
-                    tl = None
-                    if self.output_source_transactions:
-                        tl = src.income_trans
-                    self._do_output_source(i, src, tl)
-                    i += 1
+            self._output_entry_dict(entry_dict_income)
             self.output("")
 
-        if t_expense > 0:
-            i = 0
-            self.output("{Expenses} " + str(t_expense))
+        if et > 0:
+            self.output("{Expenses} " + str(group.get_expense_total()))
             self.line_break()
-            for k in sorted(source_dict.keys()):
-                src = source_dict[k]
-                if src.total < 0:
-                    tl = None
-                    if self.output_source_transactions:
-                        tl = src.expense_trans
-                    self._do_output_source(i, src, tl)
-                    i += 1
+            self._output_entry_dict(entry_dict_expense)
             self.output("")
-    
-    def output_groups(self, group_list):
-        self.output("{Groups}")
-        self.line_break()
-        i = 0
-        for gp in group_list.groups:
-            src = gp["ssrc"]
-            self.output(self._tag(i) + " " + src.format_out())
-            i += 1
 
-            if self.output_group_sources:
-                self.ipp()
-                self.output_source_dict(gp["source_dict"], src.income_total, src.expense_total)
-                self.imm()
-
-        self.output("")
+        self.imm()
 
 
+    def output_source(self, source):
+        self.output(self._tag() + " " + source.format_out())
 
 
 

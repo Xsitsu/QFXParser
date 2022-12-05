@@ -1,13 +1,21 @@
+from entry import Entry
 
-
-class Source:
+class Source(Entry):
     def __init__(self):
-        self.name = ""
         self.income_trans = []
         self.expense_trans = []
         self.income_total = float(0)
         self.expense_total = float(0)
         self.total = float(0)
+
+    def get_total(self):
+        return self.total
+
+    def get_income_total(self):
+        return self.income_total
+
+    def get_expense_total(self):
+        return self.expense_total
 
     def add_transaction(self, trn):
         amt = trn.amount
@@ -25,8 +33,3 @@ class Source:
         for trn in src.expense_trans:
             self.add_transaction(trn)
 
-    def format_out(self):
-        out = "{" + self.name + "} " + str(self.total)
-        if self.income_total > 0 and self.expense_total > 0:
-            out += " (+" + str(self.income_total) + " / -" + str(self.expense_total) + ")"
-        return out
