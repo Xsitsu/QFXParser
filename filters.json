@@ -18,66 +18,6 @@
 	]
     },
     {
-	"name": "Spaghetti Factory",
-	"patterns": [
-	    "Spag"
-	]
-    },
-    {
-	"name": "BWW",
-	"patterns": [
-	    "BWW"
-	]
-    },
-    {
-	"name": "Red Robin",
-	"patterns": [
-	    "Red Robbi"
-	]
-    },
-    {
-	"name": "McDonalds",
-	"patterns": [
-	    "McDona",
-	    "Maccas"
-	]
-    },
-    {
-	"name": "Thai Food",
-	"patterns": [
-	    "Thai"
-	]
-    },
-    {
-	"name": "Burger King",
-	"patterns": [
-	    "Borgar",
-	    "BURGER KING"
-	]
-    },
-    {
-	"name": "Dairy Queen",
-	"patterns": [
-	    "Dairy Queen",
-	    "DAIRY QUEEN"
-	]
-    },
-    {
-	"name": "TOP BURMESE BISTRO",
-	"patterns": [
-	    "TOP BURMESE BISTRO",
-	    "Burmese",
-	    "burmese"
-	]
-    },
-    {
-	"name": "AVA ROASTERIA",
-	"patterns": [
-	    "AVA",
-	    "Ava"
-	]
-    },
-    {
 	"name": "Spotify",
 	"patterns": [
 	    "Spotify",
